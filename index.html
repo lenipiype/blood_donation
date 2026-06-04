@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BloodLink Donation Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">B+</div>
+          <div>
+            <h1>BloodLink</h1>
+            <p>Donation platform</p>
+          </div>
+        </div>
+
+        <nav class="nav-tabs" aria-label="Primary">
+          <button class="nav-tab active" data-view="overview" type="button">
+            <span data-lucide="layout-dashboard"></span>
+            Overview
+          </button>
+          <button class="nav-tab" data-view="donor" type="button">
+            <span data-lucide="heart-handshake"></span>
+            Donor
+          </button>
+          <button class="nav-tab" data-view="receiver" type="button">
+            <span data-lucide="siren"></span>
+            Receiver
+          </button>
+          <button class="nav-tab" data-view="hospital" type="button">
+            <span data-lucide="hospital"></span>
+            Hospital
+          </button>
+          <button class="nav-tab" data-view="admin" type="button">
+            <span data-lucide="shield-check"></span>
+            Admin
+          </button>
+        </nav>
+
+        <div class="sidebar-note">
+          <span data-lucide="calendar-x"></span>
+          <p>Every confirmed donation starts a 30-day donor freeze period.</p>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Critical blood operations</p>
+            <h2 id="view-title">Platform Overview</h2>
+          </div>
+          <div class="status-pill">
+            <span class="pulse"></span>
+            Live matching enabled
+          </div>
+        </header>
+
+        <section class="view active" id="overview-view">
+          <div class="metric-grid">
+            <article class="metric">
+              <span data-lucide="users"></span>
+              <p>Active donors</p>
+              <strong id="active-donors">0</strong>
+            </article>
+            <article class="metric">
+              <span data-lucide="snowflake"></span>
+              <p>Frozen donors</p>
+              <strong id="frozen-donors">0</strong>
+            </article>
+            <article class="metric">
+              <span data-lucide="droplets"></span>
+              <p>Blood units</p>
+              <strong id="blood-units">0</strong>
+            </article>
+            <article class="metric">
+              <span data-lucide="bell-ring"></span>
+              <p>Open requests</p>
+              <strong id="open-requests">0</strong>
+            </article>
+          </div>
+
+          <div class="split-layout">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Request Matching</h3>
+                  <p>Compatible donors are ranked by distance, availability, and urgency.</p>
+                </div>
+                <span data-lucide="map-pin"></span>
+              </div>
+              <div id="match-list" class="list"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Live Notifications</h3>
+                  <p>Recent safety, request, and inventory events.</p>
+                </div>
+                <span data-lucide="radio"></span>
+              </div>
+              <div id="notification-list" class="list compact"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="donor-view">
+          <div class="split-layout">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Donor Registration</h3>
+                  <p>Add a donor profile and make them available for matching.</p>
+                </div>
+                <span data-lucide="user-plus"></span>
+              </div>
+              <form id="donor-form" class="form-grid">
+                <label>
+                  Full name
+                  <input name="name" value="Maya Roberts" required />
+                </label>
+                <label>
+                  Blood type
+                  <select name="bloodType" required>
+                    <option>O-</option>
+                    <option>O+</option>
+                    <option>A-</option>
+                    <option selected>A+</option>
+                    <option>B-</option>
+                    <option>B+</option>
+                    <option>AB-</option>
+                    <option>AB+</option>
+                  </select>
+                </label>
+                <label>
+                  City
+                  <input name="city" value="Vienna" required />
+                </label>
+                <label>
+                  Distance km
+                  <input name="distance" type="number" min="1" max="80" value="8" required />
+                </label>
+                <button class="primary-action" type="submit">
+                  <span data-lucide="plus"></span>
+                  Add donor
+                </button>
+              </form>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Donor Eligibility</h3>
+                  <p>Freeze periods prevent unsafe repeat donations.</p>
+                </div>
+                <span data-lucide="activity"></span>
+              </div>
+              <div id="donor-list" class="list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="receiver-view">
+          <div class="split-layout">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>New Blood Request</h3>
+                  <p>Receivers can submit urgent or planned requests.</p>
+                </div>
+                <span data-lucide="clipboard-plus"></span>
+              </div>
+              <form id="request-form" class="form-grid">
+                <label>
+                  Patient name
+                  <input name="patient" value="Leo Turner" required />
+                </label>
+                <label>
+                  Needed type
+                  <select name="bloodType" required>
+                    <option>O-</option>
+                    <option>O+</option>
+                    <option selected>A+</option>
+                    <option>A-</option>
+                    <option>B-</option>
+                    <option>B+</option>
+                    <option>AB-</option>
+                    <option>AB+</option>
+                  </select>
+                </label>
+                <label>
+                  Units
+                  <input name="units" type="number" min="1" max="10" value="2" required />
+                </label>
+                <label>
+                  Urgency
+                  <select name="urgency" required>
+                    <option>Critical</option>
+                    <option selected>Urgent</option>
+                    <option>Scheduled</option>
+                  </select>
+                </label>
+                <button class="primary-action" type="submit">
+                  <span data-lucide="send"></span>
+                  Submit request
+                </button>
+              </form>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Receiver Requests</h3>
+                  <p>Track request status and compatible supply.</p>
+                </div>
+                <span data-lucide="list-checks"></span>
+              </div>
+              <div id="request-list" class="list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="hospital-view">
+          <div class="split-layout">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Hospital Inventory</h3>
+                  <p>Update units and fulfill matched requests.</p>
+                </div>
+                <span data-lucide="package-plus"></span>
+              </div>
+              <form id="inventory-form" class="form-grid">
+                <label>
+                  Blood type
+                  <select name="bloodType" required>
+                    <option>O-</option>
+                    <option>O+</option>
+                    <option selected>A+</option>
+                    <option>A-</option>
+                    <option>B-</option>
+                    <option>B+</option>
+                    <option>AB-</option>
+                    <option>AB+</option>
+                  </select>
+                </label>
+                <label>
+                  Units
+                  <input name="units" type="number" min="1" max="20" value="4" required />
+                </label>
+                <button class="primary-action" type="submit">
+                  <span data-lucide="save"></span>
+                  Add stock
+                </button>
+              </form>
+            </section>
+
+            <section class="panel inventory-panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Current Stock</h3>
+                  <p>Low stock types are highlighted automatically.</p>
+                </div>
+                <span data-lucide="warehouse"></span>
+              </div>
+              <div id="inventory-grid" class="inventory-grid"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="admin-view">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Safety Console</h3>
+                <p>Administrative view of donors, requests, inventory, and freezes.</p>
+              </div>
+              <span data-lucide="lock-keyhole"></span>
+            </div>
+            <div class="admin-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Module</th>
+                    <th>Status</th>
+                    <th>Signal</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
